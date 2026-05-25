@@ -6,5 +6,6 @@ error_log
 .DS_Store
 **/.DS_Store
 
-# Third-party Zend Framework library (restore from source)
-public_html/dev_zend/
+# Third-party Zend Framework libraries (restore from source)
+dev_zend/
+www_zend/

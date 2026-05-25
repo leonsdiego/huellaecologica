@@ -1,0 +1,97 @@
+<?php
+	$this->headScript()->appendFile("/SpryAssets/SpryValidationTextField.js")
+					   ->appendFile('/../js/ckeditor/ckeditor.js','text/javascript');
+					   
+	$this->headLink()->appendStylesheet("/SpryAssets/SpryValidationTextField.css");
+	
+	$this->ckeditor = 'ckeditor';
+	
+	$grupo = $this->grupo;
+?>
+<?php if ($this->mensajes): ?>
+	<div class="FlashMessage" name="FlashMessage">
+		<p>
+			<?php	foreach ($this->mensajes as $mensaje):
+						echo $mensaje;
+					endforeach;
+			?>
+		</p>
+	</div>
+<?php endif; ?>
+<?php if ($this->mensajesError): ?>
+	<div class="FlashMessageError">
+		<p>
+			<?php	foreach ($this->mensajesError as $mensajeError):
+						echo $mensajeError;
+					endforeach;
+			?>
+		</p>
+	</div>
+<?php endif; ?>
+
+
+<div class="titulo"><h2>Grupo </h2><?php if(isset($grupo)){echo '<a href="/../editor/grupo">insertar nuevo</a>';}?></div>
+<hr />
+
+<form action="/../editor/grupo<?php if(isset($grupo)){echo '/id/'.$grupo['id_grupo'];}?>" method="post" name="formularioGrupo" id="formularioGrupo">
+	<table align="center">
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Nombre</td>
+		<td>
+			<input class="campotexto" type="text" name="nombre_grupo" size="500" value="<?= $grupo['nombre_grupo'] ?>" />
+		</td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Ficha</td>
+		<td>
+			<span id="sprytextfield2">
+			<input class="campotexto" type="text" name="ficha_grupo" size="500" value="<?= $grupo['ficha_grupo'] ?>"/>
+			<span class="textfieldRequiredMsg">*</span><span class="textfieldMinCharsMsg">*</span></span>
+		</td>
+	  <td>
+		  <p></p>
+	  </td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Orden</td>
+		<td>
+			<input class="campotexto" type="text" name="orden_grupo" size="10" value="<?= $grupo['orden_grupo'] ?>"/>
+		</td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">&nbsp;</td>
+		<td><input class="botonFormulario" name="<?= $this->boton['nombre'] ?>" type="submit" value="<?= $this->boton['valor'] ?>"/></td>
+	  </tr>
+	</table>
+	<input type="hidden" name="id_grupo" value="<?= $grupo['id_grupo'] ?>" />
+</form>
+<br />
+<a href="/../editor/nuevo-indicador">Insertar nuevo indicador</a>
+	<br />
+	<a href="/../editor/nueva-alternativa">Insertar nueva alternativa</a>
+	<br />
+	
+<table width="700" align="center">
+	<tr>
+		<td><h5>Ficha</h5></td>
+		<td><h5>Nombre</h5></td>
+		<td><h5>Grupo</h5></td>
+	</tr>
+	<?php foreach($this->grupos as $itemgrupo): ?>
+	<tr>
+		<td><a href="<?php echo $this->url(array('action'=>'grupo','id'=>$itemgrupo['id_grupo'])); ?>"><?= $itemgrupo['ficha_grupo'] ?></a></td>
+		<td><?= $itemgrupo['nombre_grupo']?></td>
+		<td><?= $itemgrupo['orden_grupo']?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+
+<script type="text/javascript">
+
+<!--
+
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {minChars:2, validateOn:["blur"]});
+
+//-->
+
+</script>

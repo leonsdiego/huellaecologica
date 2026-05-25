@@ -1,0 +1,79 @@
+<?php echo $this->doctype() ?><html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+<?
+	//Título de la página
+	$this->headTitle()->prepend('Huella Ecologica Venezuela');
+    echo $this->headTitle();
+?>
+<link rel="shortcut icon" href="/../images/favicon.ico" >
+<meta name="author" content="Diego León Socorro">
+<meta http-equiv="content-language" content="es">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="copyright" content="&copy; 2012 Universidad Metropolitana">
+<meta name="description" content="Software para el cálculo de la Huella Ecológica individual en Venezuela.">
+<meta name="robots" content="all">
+<meta property="og:image" content="http://dev.huellaecologica.com.ve/images/logo.jpg">
+
+<?php
+	//Meta
+	echo $this->headMeta();
+?>
+<link href="/css/styles.css" rel="stylesheet" type="text/css" />
+<link href="/css/le-frog/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+<?php
+	//CSS Stylesheets
+	echo $this->headLink();
+?>
+<?php
+	//Librerias de Jquery
+	$this->jQuery()->enable();
+	$this->jQuery()->uiEnable();
+	echo $this->jQuery();
+
+	//JavaScripts
+	echo $this->headScript();
+?>
+</head>
+<body>
+	<div id="envoltorio">
+  <div id="cabecera">
+  <div class="logo"><a href="/../"><img src="/../images/logo.png" alt="Huella Ecológica" width="400px" height="147px" border="0" /></a></div>
+  <div class="navegacion">
+  <ul>
+    <li><a href="/">inicio</a></li>
+    <li><a href="/../usuario/perfil">cuestionario</a></li>
+    <li><a href="/../index/informacion">información</a></li>
+    <li><a href="/../index/consejos">consejos ecológicos</a></li>
+    <li><a href="/../index/contacto">contacto</a></li>
+  </ul>
+</div>
+</div>
+<div id="contenido">
+
+    <?php echo $this->layout()->content; ?>
+	
+	
+</div>
+<div id="pie">
+  <div class="navegacion">
+  <ul>
+    <li><a href="/">inicio</a></li>
+    <li><a href="/../usuario/perfil">cuestionario</a></li>
+    <li><a href="/../index/informacion">información</a></li>
+    <li><a href="/../index/consejos">consejos ecológicos</a></li>
+    <li><a href="/../index/contacto">contacto</a></li>
+  </ul>
+</div>
+  <div class="creditos">
+    <p class="centrar">Trabajo de Grado realizado por <a href="http://leonsdiego.com/">Diego León</a> para la Universidad Metropolitana</p>
+    <p class="centrar" ><strong>Todos los derechos reservados</strong></p>
+	<?php 
+	$perfil = $this->perfil;
+	if($perfil['rol_usuario'] == 'editor' || $perfil['rol_usuario'] == 'visitante'){echo '
+	<p style="text-align:right; font-size:16px; color:#FFF; font-weight:bold;"><a href="/../editor">Zona de editores</a></p>';} 
+	?>
+  </div>
+</div>
+</div>
+</body>
+</html>

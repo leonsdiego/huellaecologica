@@ -1,0 +1,10 @@
+# Server logs (can grow to hundreds of MB)
+error_log
+*.log
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Third-party Zend Framework library (restore from source)
+public_html/dev_zend/

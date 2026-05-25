@@ -1,0 +1,31 @@
+<?php $cantidadUsuarios = $this->cantidadUsuarios; 
+	$cantidadVisitantes = $this->cantidadVisitantes;
+	$cantidadEditores = $this->cantidadEditores;
+?>
+
+<div class="titulo"><h2>Resumen estadístico</h2></div>
+<hr />
+<div class="queryNumero">
+	<a href="/..<?= $this->url(array('action'=>'listar','tipo'=>'encuestado')); ?>" title="Ver lista de usuarios">
+		<p><?= $cantidadUsuarios ?> encuestados registrados</p>
+	</a>
+</div>
+<div class="queryNumero">
+	<a href="/..<?= $this->url(array('action'=>'listar','tipo'=>'visitante')); ?>" title="Ver lista de usuarios">
+		<p><?= $cantidadVisitantes ?> visitantes registrados</p>
+	</a>
+</div>
+<div class="queryNumero">
+	<a href="/..<?= $this->url(array('action'=>'listar','tipo'=>'editor')); ?>" title="Ver lista de editores">
+		<p><?= $cantidadEditores ?> editores registrados</p>
+	</a>
+</div>
+<div class="queryNumero">
+	<?php foreach ( $this->cuestionarios as $cuestionario)
+	{
+		echo '
+			<a href="/../editor/estadisticas-cuestionarios" title="Ver estadísticas de cuestionarios">
+			<p>' . $cuestionario['cant'].' cuestionarios ' . $cuestionario['estatus'] . 's</p></a><br />';
+	}
+	?>
+</div>

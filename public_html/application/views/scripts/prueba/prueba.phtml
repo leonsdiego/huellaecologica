@@ -1,0 +1,191 @@
+<?php
+$form = new Zend_Form(array(
+    'name' => 'perfil',
+    'action' => '/index/perfil',
+    'elements' => array(
+        //Sesión
+        array('select', 'sexo_usuario', array(
+            'class' => 'campotexto',
+            'value' => 'M',
+            'multiOptions' => array('M', 'F', 'N'),
+            'decorators' => array(
+                'ViewHelper',
+                array('HtmlTag', array(
+                    'tag' => 'td'
+                ))
+            )
+        ))
+    ),
+    'decorators' => array('FormElements', 'Form')
+));
+/*
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Género</td>
+
+		<td><select class="campotexto" name="sexo_usuario">
+
+		<option value="null" >--</option>
+
+		  <option value="M" SELECTED>Masculino</option>
+
+		  <option value="F" >Femenino</option>
+
+		  <option value="N" >Sin especificar</option>
+
+		</select></td>
+
+	  </tr>
+(*/
+
+
+
+echo $form->render($this);
+?>
+
+<!-- <div class="tituloSeccion"><h1>Perfil</h1><p>Bienvenido, <a href="#">Diego León</a></p></div>
+
+<a href="/huellaecologica/perfil.php?doLogout=true"><p>Cerrar sesi&oacute;n</p></a> 
+
+<div class="perfilUsuario">
+
+	<h2>Mis datos</h2>
+
+  <hr />
+
+  <form action="/huellaecologica/perfil.php?" method="post" name="form1" id="form1">
+
+	<table align="center">
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Nombre</td>
+
+		<td><p> Diego Le&oacute;n</p></td>
+
+	  </tr>
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Género</td>
+
+		<td><select class="campotexto" name="sexo_usuario">
+
+		<option value="null" >--</option>
+
+		  <option value="M" SELECTED>Masculino</option>
+
+		  <option value="F" >Femenino</option>
+
+		  <option value="N" >Sin especificar</option>
+
+		</select></td>
+
+	  </tr>
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Nivel de instrucción</td>
+
+		<td><select name="instruccion_usuario" class="campotexto">
+
+		  <option value="0" >Sin instrucci&oacute;n</option>
+
+		  <option value="1" >Preescolar</option>
+
+		  <option value="2" >Primaria</option>
+
+		  <option value="3" >Secundaria</option>
+
+		  <option value="4" >T&eacute;nico</option>
+
+		  <option value="5" >Militar</option>
+
+		  <option value="6" SELECTED>Superior</option>
+
+		  <option value="7" >Postgrado</option>
+
+		  <option value="8" >Maestría</option>
+
+		  <option value="9" >Doctorado</option>
+
+		</select></td>
+
+	  </tr>
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Profesi&oacute;n</td>
+
+		<td><input class="campotexto" type="text" name="profesion_usuario" value="Ingeniero de Sistemas" size="32" /></td>
+
+	  </tr>
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Fecha de nacimiento</td>
+
+		<td><input class="campotexto" type="text" name="fechaNac_usuario" id="datepicker" value="1989-03-31" size="32" /></td>
+
+	  </tr>
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Municipio</td>
+
+		<td><input class="campotexto" type="text" name="municipio_usuario" value="Chacao" size="32" /></td>
+
+	  </tr>
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">Estado</td>
+
+		<td><input class="campotexto" type="text" name="estado_usuario" value="Miranda" size="32" /></td>
+
+	  </tr>
+
+	  <tr valign="baseline">
+
+		<td nowrap="nowrap" align="right">&nbsp;</td>
+
+		<td><input class="botonFormulario" type="submit" value="Actualizar perfil" /></td>
+
+	  </tr>
+
+	</table>
+
+	<input type="hidden" name="MM_update" value="form1" />
+
+	<input type="hidden" name="id_usuario" value="58" />
+
+  </form>
+
+  <p>&nbsp;</p>
+
+  <p class="verde"></p>
+
+</div>
+
+<div class="iniciarCuestionario">
+
+	<h2>Calcular mi Huella Ecol&oacute;gica</h2>
+
+	<hr />
+
+	<form action="cuestionario.php" method="post" name="form2" id="form2">
+
+		<table align="center">
+
+		  <tr valign="baseline">
+
+			<td><input class="botonFormulario" type="submit" value="Iniciar cuestionario" /></td>
+
+		  </tr>
+
+		</table>
+
+	</form>
+
+</div>
+-->

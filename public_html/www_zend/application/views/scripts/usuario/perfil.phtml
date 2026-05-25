@@ -1,0 +1,142 @@
+<?php 
+	$perfil = $this->perfil;
+	$this->headTitle(' | Perfil');
+	$this->headScript()->appendFile("/js/js-datepicker/datepicker.js");
+	$this->headLink()->appendStylesheet("/css/css-datepicker/datepicker.css");
+?>
+<div class="tituloSeccion"><h1>Perfil</h1>
+<p>Bienvenid<?php if($perfil['sexo_usuario'] == 'F') echo "a"; else echo "o"; ?>, <a href="/../usuario/perfil"><?php if($perfil['nombre_usuario']!=null)echo $perfil['nombre_usuario']; else echo $perfil['email_usuario']; ?></a></p>
+<br />
+<a href="/../index/cerrar-sesion"><p>Cerrar sesión</p></a></div>
+
+<?php if(null != $this->cuestionarios)
+{
+			
+echo '<div class="iniciarCuestionario">
+	<h2>Resultados de tus cuestionarios anteriores</h2>
+	<hr />';
+	 foreach( $this->cuestionarios as $cuestionario )
+		{
+			$fecha = date("l, F d Y"); 
+			$fecha = strtotime($cuestionario['fecha_cuestionario']); 
+			echo '<br /><p>Cuestionario del '. date("j/m/Y", $fecha).' a las '.date("g:ia ", $fecha).
+			' | <a href="/../usuario/resultados/cuestionario/'.$cuestionario['id_cuestionario'] . '" style="color:blue;font-size:14px">'; 
+			if($cuestionario['estatus_cuestionario']=='terminado')echo 'Ver resultados';else echo 'Continuar'; echo '</a>';echo ' | ';
+			if($cuestionario['estatus_cuestionario']=='terminado')echo '<a href="/../usuario/consejos/cuestionario/'. $cuestionario['id_cuestionario'] . '" style="color:blue;font-size:14px">Ver consejos</a></p>';
+		}
+echo '</div>';}
+?>
+
+<div class="perfilUsuario">
+	<?php if ($this->mensajes): ?>
+		<div class="FlashMessage">
+			<p>
+				<?php	foreach ($this->mensajes as $mensaje):
+							echo $mensaje;
+						endforeach;
+				?>
+			</p>
+		</div>
+	<?php endif; ?>
+	<h2>Mis datos</h2>
+  <hr />
+  <form action="/usuario/perfil" method="post" name="formularioPerfil" id="formularioPerfil">
+	<table align="center">
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Correo electrónico</td>
+		<td><p style="color:#060;"><?= $perfil['email_usuario'] ?></p></td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Nombre (opcional)</td>
+		<td><input class="campotexto" type="text" name="nombre_usuario" value="<?= $perfil['nombre_usuario'] ?>" size="32" /></td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Género</td>
+		<td><select class="campotexto" name="sexo_usuario">
+			<option value="" <?php if($perfil['sexo_usuario'] == '') echo "selected='selected'" ?>>--</option>
+			<option value="Hombre" <?php if($perfil['sexo_usuario'] == 'Hombre') echo "selected='selected'" ?>>Masculino</option>
+			<option value="Mujer" <?php if($perfil['sexo_usuario'] == 'Mujer') echo "selected='selected'" ?>>Femenino</option>
+			<option value="No especifica" <?php if($perfil['sexo_usuario'] == 'No especifica') echo "selected='selected'" ?>>Sin especificar</option>
+		</select></td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Nivel de instrucción</td>
+			<?php if($this->instruccion): ?>
+				<td><select name="instruccion_usuario" class="campotexto">
+							<option value="" <?php if($perfil['tbl_instruccion_nombre_instruccion'] == (null || '')) echo "selected='selected'"?>>--</option>
+					<?php foreach($this->instruccion as $instruccion): ?>
+							<option value="<?= $instruccion['nombre_instruccion'] ?>" <?php if($perfil['tbl_instruccion_nombre_instruccion'] == $instruccion['nombre_instruccion']) echo "selected='selected'" ?>><?= $instruccion['nombre_instruccion'] ?></option>
+					<?php endforeach; ?>
+				</td></select>
+			<?php endif; ?>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Profesión</td>
+		<td><input class="campotexto" type="text" name="profesion_usuario" value="<?= $perfil['profesion_usuario'] ?>" size="32" /></td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Fecha de nacimiento</td>
+		<td><input class="campotexto" type="text" name="fechaNac_usuario" value="<? if($perfil['fechaNac_usuario']!='') echo $perfil['fechaNac_usuario']; else echo '2000-01-01';  ?>" size="10" /></td>
+	  </tr>
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">Estado donde resides</td>
+		<?php if($this->estados): ?>
+		<td><select name="estado_usuario" class="campotexto">
+					<option value="" <?php if($perfil['tbl_estado_nombre_estado'] == (null || '')) echo "selected='selected'"?>>--</option>
+			<?php foreach($this->estados as $estado): ?>
+					<option value="<?= $estado ?>" <?php if($perfil['tbl_estado_nombre_estado'] == $estado) echo "selected='selected'" ?>>
+					<?php if($estado=='Distrito Federal'){echo 'Distrito Capital';}else echo $estado; ?></option>
+			<?php endforeach; ?>
+		</td></select>
+		<?php endif; ?>
+	  </tr>
+	  <!--<tr valign="baseline">
+		<td nowrap="nowrap" align="right">Municipio</td>
+		<td><input class="campotexto" type="text" name="municipio_usuario" value="<?= $perfil['municipio_usuario'] ?>" size="32" /></td>
+	  </tr>-->
+	  <tr valign="baseline">
+		<td nowrap="nowrap" align="right">&nbsp;</td>
+		<td><input class="botonFormulario" type="submit" name="botonUpdatePerfil" value="Actualizar perfil" /></td>
+	  </tr>
+	</table>
+	<input type="hidden" name="id_usuario" value="<?= $perfil['id_usuario'] ?>" />
+  </form>
+  <p>&nbsp;</p>
+  <p class="verde"></p>
+
+</div>
+
+<!-- DatePicker -->
+<script type="text/javascript">
+	$("[name=fechaNac_usuario]").DatePicker({
+	format:'Y-m-d',
+	flat:false,
+	date: $("[name=fechaNac_usuario]").val(),
+	current: $("[name=fechaNac_usuario]").val(),
+	starts: 1,
+	calendars: 1,
+	view: 'years',
+	position: 'top',
+	onBeforeShow: function(){
+		$('#inputDate').DatePickerSetDate($("[name=fechaNac_usuario]").val(), true);
+	},
+	onChange: function(formated, dates){
+		if($("[name=fechaNac_usuario]").val(formated) == true )
+		{
+			$("[name=fechaNac_usuario]").DatePickerHide();
+		}
+	}
+});
+</script>
+
+<div class="iniciarCuestionario">
+	<h2>Calcular mi Huella Ecol&oacute;gica</h2>
+	<hr />
+	<form action="/../cuestionario/comenzar" method="post" name="formularioEnviarCuestionario" id="formularioEnviarCuestionario">
+		<table align="center">
+		  <tr valign="baseline">
+			<td><input class="botonFormulario" name="botonEnviarACuestionario" type="submit" value="Responder cuestionario" style="width:350px;"/></td>
+		  </tr>
+		</table>
+	</form>
+</div>

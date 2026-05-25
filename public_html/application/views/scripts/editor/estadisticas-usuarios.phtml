@@ -1,0 +1,130 @@
+<?php
+	$this->headScript()	->appendFile("https://www.google.com/jsapi");
+	require("scripts/gChart.php");
+?>
+<script type="text/javascript">
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart','geomap']});
+	  
+	  //Mapa
+    function drawMap() {
+      var data5 = google.visualization.arrayToDataTable([
+        ['Estado', 'Usuarios'],
+		<?php 
+			foreach( $this->estadosUsuarios as $estadoUsuario )
+			{
+				echo "['".$estadoUsuario['estado']."', ".$estadoUsuario['cant']."],";
+			}
+		 ?>
+      ]);
+
+      var options = {};
+      options['region'] = 'VE';
+      options['colors'] = [0x00CC00, 0x009900];
+      options['dataMode'] = 'regions';
+
+      var container = document.getElementById('map_canvas');
+      var geomap = new google.visualization.GeoMap(container);
+      geomap.draw(data5, options);
+    };
+	
+	function drawLines() {
+  // Create and populate the data table.
+  var data = google.visualization.arrayToDataTable([
+    ['Meses', 'Registros'],
+	<?php
+    foreach( $this->registrosMes as $registroMes )
+			{
+				echo "['".$registroMes['mes']."', ".$registroMes['cant']."],";
+			}?>
+  ]);
+  
+ 
+  // Create and draw the visualization.
+  new google.visualization.LineChart(document.getElementById('chart_lines')).
+      draw(data, {
+                  width: 700, height: 400,
+                  }
+          );
+}
+
+
+	function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Género', 'Cantidad'],
+		  <?php
+		 foreach( $this->usuariosSexo as $usuariosexo )
+		 {
+			echo "['". $usuariosexo['sexo'] ."', ". $usuariosexo['cant'] . "],";
+		 }
+		?>]);     
+				
+
+        var options = {
+          title: 'Tu Huella Ecológica por categorías',
+          is3D: true
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+	
+	function drawVisualization() 
+	{
+		drawMap();
+		drawLines();
+		drawChart();
+    };
+
+	
+	google.setOnLoadCallback(drawVisualization);
+</script>
+
+
+<div class="titulo"><h2>Estadísticas de los usuarios</h2></div>
+<hr />
+
+ <div class="estadistica">
+	<h2>Usuarios por Estado</h2>
+	<div id='map_canvas'></div>
+ </div>
+ 
+ <div class="estadistica">
+	<h2>Registros por mes</h2>
+	<div id='chart_lines'></div>
+ </div>
+ 
+  <div class="estadistica">
+	<h2>Usuarios por género</h2>
+	<div id="chart_div" style="width: 700px; height: 450px;"></div>
+  </div>
+ 
+ <div class="estadistica">
+	<h2>Usuarios por género</h2>
+	<?php
+		$genero = array();
+		$cant = array();
+		$leyenda = array();
+		foreach( $this->usuariosSexo as $usuariosexo )
+			{
+				$sexo[] = $usuariosexo['sexo'];
+				if($sexo == '')
+				{ $sexo[] = 'Ninguno'; }
+				$cant[] = $usuariosexo['cant'];
+				
+				$leyenda[] = $usuariosexo['cant'] . ' ' . $usuariosexo['sexo'] ;
+			}		
+		$pieChart = new gPieChart(600,350);
+		$pieChart->addDataSet($cant);
+		$pieChart->setLegend($sexo);
+		$pieChart->setLabels($leyenda);
+		$pieChart->setColors(array("ff3344", "11ff11", "22aacc", "3333aa"));
+	?>
+	<img src="<?php print $pieChart->getUrl();  ?>" /> <br>
+</div>
+
+
+
+ 
+ 
+ 

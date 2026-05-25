@@ -1,0 +1,47 @@
+<?php 	$this->headTitle(' | Bienvenidos'); 
+		$this->headMeta()->appendName('keywords', 'huella ecologica venezuela, ecologia venezuela, ambiente venezuela, calcular mi huella ecologica, huella ecologica, medio ambiente venezuela, calcular impacto ambiental venezuela');
+		$sidebar1 = $this->sidebar1;
+		$sidebar2 = $this->sidebar2;
+		$contenido1 = $this->contenido1;
+		?>
+
+<div class="tituloSeccion">
+    <h1>Bienvenidos</h1>
+</div>
+<div class="sidebarIndex">
+	<div class="infoHE">
+		<h2><?= $sidebar1['titulo_informacion'] ?></h2>
+		<hr />
+		<p><?= $sidebar1['contenido_informacion'] ?></p>
+		<a href="/../index/informacion"><p class="verde2 derecha">más información</p></a>
+	</div>
+	<div class="infoHE">
+		<h2><?= $sidebar2['titulo_informacion'] ?></h2>
+		<hr />
+		<p><?= $sidebar2['contenido_informacion'] ?></p>
+		<a href="/../index/informacion"><p class="verde2 derecha">más información</p></a>
+	</div>
+</div>
+ <div class="registro">
+    <h2><a href="/index/registro/" style="color: #060;">Regístrate antes de calcular tu Huella Ecológica</a></h2>
+	<br />
+    <hr />
+    <a href="/index/login/"><h2>Iniciar sesión</h2><p>(usuarios registrados)</p></a>
+</div>
+<br />
+<div class="iniciarCuestionario izquierda">
+	<h2><a href="/../index/registro">Calcular mi Huella Ecol&oacute;gica</a></h2>
+	<hr />
+	<form action="/../index/registro" method="post" name="formularioCuestionario" id="formularioCuestionario">
+		<table align="center">
+		  <tr valign="baseline">
+			<td><input class="botonFormulario" name="botonEnviarACuestionario" type="submit" value="Iniciar cuestionario" /></td>
+		  </tr>
+		</table>
+	</form>
+</div>
+<div class="iniciarCuestionario izquierda">
+	<h2><a href="/../index/informacion"><?= $contenido1['titulo_informacion'] ?></a></h2>
+	<hr />
+	<?= $contenido1['contenido_informacion'] ?>
+</div>

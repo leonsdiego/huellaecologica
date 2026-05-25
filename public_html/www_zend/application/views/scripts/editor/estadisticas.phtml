@@ -1,0 +1,59 @@
+<?php
+	$this->headScript()	->appendFile("http://www.google.com/jsapi");
+?>
+
+<script type="text/javascript">
+      // Load the Visualization API and the piechart package.
+	google.load('visualization', '1.0', {'packages':['corechart']});
+</script>
+
+
+<div class="titulo"><h2>Estadísticas</h2></div>
+<hr />
+
+<div class="estadistica">
+	<h2><a href="/../editor/estadisticas-usuarios">Estadísticas de usuarios</a></h2>
+ </div>
+
+<div class="estadistica">
+	<h2><a href="/../editor/estadisticas-cuestionarios">Estadísticas de cuestionarios</a></h2>
+ </div>
+
+<div class="estadistica">
+	<h2>Grupo</h2>
+	<div id="visualization" style="width: 600px; height: 400px;"></div>
+ </div>
+
+ <script type="text/javascript">
+	
+	function drawBarras() {
+	// Create and populate the data table.
+	var data = google.visualization.arrayToDataTable([
+	  ['Grupo'<?php 
+			foreach( $this->indicadoresGrupos as $indicadoresgrupo )
+			{
+				echo ", '". $indicadoresgrupo['grupo'] ."'";}?>],
+	  ['Indicadores'<?php 
+			foreach( $this->indicadoresGrupos as $indicadorescant )
+			{
+				echo ", ". $indicadorescant['cant'] ."";}?>]]);
+  
+  
+  
+  
+	// Create and draw the visualization.
+	new google.visualization.ColumnChart(document.getElementById('visualization')).
+		draw(data,
+			 {title:"Cantidad de indicadores por cada grupo",
+			  width:600, height:400,}
+		);
+  }
+  
+  function drawVisualization() 
+	{
+		drawBarras();
+    };
+
+  google.setOnLoadCallback(drawVisualization);
+	
+</script>

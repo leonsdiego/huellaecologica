@@ -8,4 +8,8 @@ error_log
 
 # Third-party Zend Framework libraries (restore from source)
 dev_zend/
-www_zend/
+www_zend/library/Zend/
+www_zend/library/ZendX/
+
+# Database dumps (may contain sensitive data)
+*.sql

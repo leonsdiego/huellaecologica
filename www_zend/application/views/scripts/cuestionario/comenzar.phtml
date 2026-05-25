@@ -1,0 +1,51 @@
+<?php 	
+		$this->headScript()	->appendFile("/../SpryAssets/SpryValidationRadio.js");
+		$this->headLink()	->appendStylesheet("/SpryAssets/SpryValidationRadio.css");
+		$this->headTitle(' | Comienzo cuestionario');
+		$indicador = $this->indicador;
+		$sidebar1 = $this->sidebar1;
+		$contenido1 = $this->contenido1;
+		?>
+<div class="sidebarIndex" style="clear:right;">
+	<div class="infoHE">
+		<h2><?= $sidebar1['titulo_informacion'] ?></h2>
+		<hr />
+		<?= $sidebar1['contenido_informacion'] ?>
+	</div>
+</div>
+
+<div class="informacionTesis">
+	<h2><?= $contenido1['titulo_informacion'] ?></h2>
+	<hr />
+	<?= $contenido1['contenido_informacion'] ?>
+</div>
+
+<div class="barraPie"></div>
+<div class="pregunta">
+	<div class="indicador"><h3><?= $indicador['descripcion_indicador'] ?></h3></div>
+	<div class="alternativa">
+		<form method="post" action="/../cuestionario/comenzar">
+		<span id="spryradio1">
+			<table id="tableSelect">
+					<?php foreach( $this->alternativas as $alternativa ): ?>
+					<?php echo '
+					<tr class="subrayado">
+						<td><input name="seleccion_usuario" style="display:none;" type="radio" value="'.$alternativa['id_alternativa'].'">
+						'.$alternativa['descripcion_alternativa'].'</td>
+					</tr>'?>
+					<?php endforeach; ?>
+					<tr valign="baseline">
+						<td><input class="botonFormulario" name="botonComenzarCuestionario" type="submit" value="Comenzar"/></td>
+					</tr>
+			</table>
+		<span class="radioRequiredMsg">Por favor, escoge alguna respuesta</span></span>
+		</form>
+		<div class="barraPie"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+var spryradio1 = new Spry.Widget.ValidationRadio("spryradio1");
+//-->
+</script>

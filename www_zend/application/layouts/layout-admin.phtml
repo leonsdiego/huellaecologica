@@ -1,0 +1,88 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+<title>Huella Ecológica Venezuela | Administración</title>
+<link rel="shortcut icon" href="/../images/favicon.ico" >
+<meta name="author" content="Diego León Socorro">
+<meta http-equiv="content-language" content="es">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="copyright" content="&copy; 2012 Universidad Metropolitana">
+<meta name="description" content="Software para calcular la Huella Ecológica en Venezuela">
+
+<?php
+	//Meta
+	echo $this->headMeta();
+?>
+
+<link href="/../css/estilos-admin.css" rel="stylesheet" type="text/css" />
+
+<?php
+	//CSS Stylesheets y Favicon
+	echo $this->headLink();
+?>
+
+
+<?php
+	//Librerias de Jquery
+	$this->jQuery()->enable();
+	echo $this->jQuery();
+
+	//JavaScripts
+	echo $this->headScript();
+?>
+</head>
+<body>
+  <div id="contenedor">
+    <div id="cabecera">
+      	<div class="titulo"><!-- InstanceBeginEditable name="titulo" -->
+      	  <h1>Administraci&oacute;n</h1>
+   	  <!-- InstanceEndEditable --></div>
+      	<div class="boton-volver">
+      	  <p><a href="/../usuario/perfil" title="Visitar HuellaEcologica.com.ve">Ir al sitio</a></p>
+        </div>
+    </div>
+    <div id="contenido">
+	<!-- InstanceBeginEditable name="contenido" -->
+	    <div class="barralateral">
+        	<ul>
+            	<li><a href="/../editor/index"><p>Inicio</p></a></li>
+                <li><a href="/../editor/listar/tipo/encuestado"><p>Usuarios</p></a></li>
+                <li><a href="/../editor/listar/tipo/visitante"><p>Visitantes</p></a></li>
+                <li><a href="/../editor/listar/tipo/editor"><p>Editores</p></a></li>
+                <li><a href="/../editor/estadisticas"><p>Estadísticas</p></a></li>
+                <li><a href="/../editor/estadisticas-usuarios"><p>- Usuarios</p></a></li>
+                <li><a href="/../editor/estadisticas-cuestionarios"><p>- Cuestionarios</p></a></li>
+                <li><a href="/../editor/encuestas"><p>Encuestas</p></a></li>
+                <li><a href="/../editor/cuestionario"><p>- Cuestionario</p></a></li>
+                <li><a href="/../editor/grupo"><p>- Grupos</p></a></li>
+                <li><a href="/../editor/indicador"><p>- Indicadores</p></a></li>
+                <li><a href="/../editor/alternativa"><p>- Alternativas</p></a></li>
+                <li><a href="/../editor/factor"><p>- Factores de conversión</p></a></li>
+                <li><a href="/../editor/consejo"><p>- Consejos ecológicos</p></a></li>
+				<li><a href="/../editor/sitio"><p>Sitio</p></a></li>
+                <li><a href="/../editor/informacion"><p>- Información</p></a></li>
+             </ul>
+    	</div>
+    	<div class="tablero">
+        <div class="cuadroAdmin">
+		
+            <?php echo $this->layout()->content; ?>
+			
+        </div>
+
+            </div>
+
+    	<div class="pieContenido">
+
+        	<p><a href="/../index/cerrar-sesion">Cerrar sesión</a></p>
+
+        </div>    	
+
+	<!-- InstanceEndEditable -->
+
+  	</div>
+
+</body>
+
+<!-- InstanceEnd --></html>
+

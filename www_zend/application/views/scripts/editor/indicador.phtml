@@ -1,0 +1,230 @@
+<?php
+	$this->headScript()	->appendFile("/../SpryAssets/SpryValidationTextField.js")
+						->appendFile("/../SpryAssets/SpryValidationSelect.js")
+						->appendFile('/../js/ckeditor/ckeditor.js','text/javascript');
+					   
+	$this->headLink()	->appendStylesheet("/SpryAssets/SpryValidationTextField.css")
+						->appendStylesheet("/SpryAssets/SpryValidationSelect.css");
+	
+	$this->ckeditor = 'ckeditor';
+	
+	$indicador = $this->indicador;
+?>
+<?php if ($this->mensajes): ?>
+	<div class="FlashMessage" name="FlashMessage">
+		<p>
+			<?php	foreach ($this->mensajes as $mensaje):
+						echo $mensaje;
+					endforeach;
+			?>
+		</p>
+	</div>
+<?php endif; ?>
+<?php if ($this->mensajesError): ?>
+	<div class="FlashMessageError">
+		<p>
+			<?php	foreach ($this->mensajesError as $mensajeError):
+						echo $mensajeError;
+					endforeach;
+			?>
+		</p>
+	</div>
+<?php endif; ?>
+
+
+<div class="titulo"><h2>Indicadores </h2><?php if(isset($indicador)){echo '<a href="/../editor/indicador">insertar nuevo</a><br /><a href="/../editor/alternativa/indicador/'.$indicador['id_indicador'].'">alternativas de este indicador</a>';}?></div>
+<hr />
+
+<form action="/../editor/indicador<?php if(isset($indicador)){echo '/id/'.$indicador['id_indicador'];}?>" method="post" name="formularioIndicador" id="formularioIndicador">
+	<table align="center">
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Nombre</td>
+			<td>
+				<input class="campotexto" type="text" name="nombre_indicador" size="500" value="<?= $indicador['nombre_indicador'] ?>"/>
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Descripción</td>
+			<td>
+				<input class="campotexto" type="text" name="descripcion_indicador" size="500" value="<?= $indicador['descripcion_indicador'] ?>"/>
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Ficha</td>
+			<td>
+				<span id="sprytextfield2">
+				<input class="campotexto" type="text" name="ficha_indicador" size="500" value="<?= $indicador['ficha_indicador'] ?>" />
+				<span class="textfieldRequiredMsg">*</span><span class="textfieldMinCharsMsg">*</span></span>
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Grupo</td>
+			<td><span id="spryselect1">
+				<!-- Foreach de los Grupos -->
+				<select name="id_grupo" class="campotexto" >
+					<option value="">--</option>
+					<?php foreach ($this->grupos as $grupo): ?>
+					<option value="<?= $grupo['id_grupo'] ?>" <?php if($grupo['id_grupo']== $indicador['tbl_grupo_id_grupo']) echo "selected='selected'"; ?>><?= $grupo['nombre_grupo'] ?></option>
+					<?php endforeach; ?>
+				</select>
+			<span class="selectRequiredMsg">*</span></span></td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Factor conversión</td>
+			<td><span id="sprytextfield1">
+				<input class="campotexto" type="text" name="factor_indicador" size="500" value="<?php foreach ($this->factores as $factor){if($factor['id_factorConversion']== $indicador['tbl_factorConversion_id_factorConversion']){echo $factor['valor_factorConversion'];}}?>"/>
+			</td><span class="textfieldRequiredMsg">*</span><span class="textfieldMinCharsMsg">*</span></span>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Ayuda</td>
+			<td>
+				<input class="campotexto" type="text" name="ayuda_indicador" size="500" value="<?= $indicador['ayuda_indicador'] ?>"/>
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Indicador anterior</td>
+			<td><span id="spryselect3">
+				<!-- Foreach de los ID de los Factores -->
+				<select class="campotexto" name="tbl_indicador_id_indicador_anterior">
+					<option value="">--</option>
+					<?php foreach ($this->indicadoresAnteriores as $indicadorAnterior): ?>
+					<option value="<?= $indicadorAnterior['id_indicador'] ?>" <?php if($indicadorAnterior['id_indicador']== $indicador['tbl_indicador_id_indicador_anterior']) echo "selected='selected'"; ?>><?= $indicadorAnterior['nombre_indicador'] ?></option>
+					<?php endforeach; ?>
+				</select>
+			<span class="selectRequiredMsg">*</span></span></td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Fórmula</td>
+			<td>
+				<input type="radio" name="formula_indicador" value=0 <?php if($indicador['formula_indicador']== 0) echo "checked"; ?>/> Condicional<br />
+				<input type="radio" name="formula_indicador" value=1 <?php if($indicador['formula_indicador']== 1) echo "checked"; ?>/> Directa<br />
+				<input type="radio" name="formula_indicador" value=2 <?php if($indicador['formula_indicador']== 2) echo "checked"; ?>/> Indirecta<br />
+				<input type="radio" name="formula_indicador" value=3 <?php if($indicador['formula_indicador']== 3) echo "checked"; ?>/> Especial
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Cuenta para la Huella</td>
+			<td>
+				<input type="radio" name="cuenta_indicador" value=1 <?php if($indicador['cuenta_indicador']== 1) echo "checked"; ?>/> Sí<br />
+				<input type="radio" name="cuenta_indicador" value=0 <?php if($indicador['cuenta_indicador']== 0) echo "checked"; ?>/> No
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">Orden</td>
+			<td>
+				<input class="campotexto" type="text" name="orden_indicador" size="500" value="<?= $indicador['orden_indicador'] ?>"/>
+			</td>
+		</tr>
+		<?php
+			if(isset($indicador))
+			{
+				echo '
+				<tr valign="baseline">
+					<td nowrap="nowrap" align="right">Encuesta</td>
+					<td><span id="spryselect4">
+					<select class="campotexto" name="id_encuesta">
+						<option value="">--</option>';
+						foreach ($this->encuestas as $encuesta)
+						{
+							echo '<option value="'.$encuesta["id_encuesta"].'"';
+							if($encuesta['id_encuesta']== $this->encuestaIndicador['tbl_encuesta_id_encuesta']) echo "selected='selected'";
+							echo ">" . $encuesta['id_encuesta'] .') '. $encuesta['nombre_encuesta'] .'</option>';
+						}
+					echo '</select>
+					<span class="selectRequiredMsg">*</span></span></td>
+				</tr>';
+			}
+		?>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right">&nbsp;</td>
+			<td>
+				<input class="botonFormulario" name="<?= $this->boton['nombre'] ?>" type="submit" value="<?= $this->boton['valor'] ?>"/>
+			</td>
+		</tr>
+	</table>
+	<input type="hidden" name="id_indicador" value="<?= $indicador['id_indicador'] ?>" />
+</form>
+
+<a href="/../editor/grupo">Insertar nuevo grupo</a>
+<br />
+<a href="/../editor/alternativa">Insertar nueva alternativa</a>
+<br />
+<a href="/../editor/factor">Insertar nuevo factor de conversión</a>
+<br />
+<br />
+
+<?php if(isset($indicador))
+	{ 
+	echo '
+	<input class="botonFormulario" name="botonToggle" id="botonToggle" value="-" style="padding:0 50px; width:10px; height: 25px;"/>
+	<table width="700" align="center" name="tabla" id="tabla">
+	<tr>
+		<td><h5>Orden</h5></td>
+		<td><h5>Ficha</h5></td>
+		<td><h5>Descripción</h5></td>
+		<td><h5>Peso</h5></td>
+		<td><h5>Consejo</h5></td>
+		
+	</tr>';
+	foreach($this->alternativas as $itemalternativa)
+	{
+	echo '
+	<tr>
+		<td>'.$itemalternativa['orden_alternativa'] .'</td>
+		<td><a href="/../editor/alternativa/indicador/'.  $indicador['id_indicador'] .'/id/'. $itemalternativa['id_alternativa'].'">'. $itemalternativa['ficha_alternativa'] .'</a></td>
+		<td><a href="/../editor/alternativa/indicador/'.  $indicador['id_indicador'] .'/id/'. $itemalternativa['id_alternativa'].'">'. $itemalternativa['descripcion_alternativa'] .'</a></td>
+		<td>'. $itemalternativa['peso_alternativa'] . ' ' .  $itemalternativa['unidad_alternativa'] .'</td>
+		<td><a href="'. $this->url(array('action'=>'consejo','id'=>$itemalternativa['id_consejo'])) .'">'. $itemalternativa['ficha_consejo'].'</a></td>
+	</tr>';
+	}
+	echo '</table> ';
+	} 
+?>
+
+<table width="700" align="center" name="tablaind" id="tablaind">
+	<tr>
+		<td><h5>Ficha</h5></td>
+		<td><h5>Orden</h5></td>
+		<td><h5>Nombre</h5></td>
+		<td><h5>FC</h5></td>
+		<td><h5>Fórmula</h5></td>
+		<td><h5>Cuenta</h5></td>
+		<td><h5>Grupo</h5></td>
+		
+	</tr>
+	<?php foreach($this->indicadores as $itemindicador): ?>
+	<tr>
+		<td><a href="<?php echo $this->url(array('action'=>'indicador','id'=>$itemindicador['id_indicador'])); ?>"><?= $itemindicador['ficha_indicador'] ?></a></td>
+		<td><?= $itemindicador['orden_indicador']?></td>
+		<td><?= $itemindicador['nombre_indicador']?></td>
+		<td><a href="<?php echo $this->url(array('action'=>'factor','id'=>$itemindicador['id_factorConversion'])); ?>"><?= $itemindicador['valor_factorConversion']?></a></td>
+		<td><?= $itemindicador['formula_indicador']?></td>
+		<td><?php if( $itemindicador['cuenta_indicador'] == 1) echo 'Sí';?></td>
+		
+		<td><?= $itemindicador['nombre_grupo']?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+
+<script>
+$("#botonToggle").click(function () {
+$("#tabla").toggle("slow");
+});    
+</script>
+
+<script type="text/javascript">
+
+<!--
+
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {minChars:2, validateOn:["blur"]});
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {minChars:1, validateOn:["blur"]});
+var spryselect1 = new Spry.Widget.ValidationSelect("spryselect1");
+var spryselect3 = new Spry.Widget.ValidationSelect("spryselect3");
+<?php if(isset($indicador))
+{
+	echo 'var spryselect4 = new Spry.Widget.ValidationSelect("spryselect4");';
+}
+?>
+//-->
+
+</script>

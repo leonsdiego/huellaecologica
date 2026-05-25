@@ -1,0 +1,60 @@
+<?php $this->headScript()->appendFile('/../js/ckeditor/ckeditor.js','text/javascript');
+		$this->ckeditor = 'ckeditor';
+		?>
+<?php if ($this->mensajes): ?>
+	<div class="FlashMessage" name="FlashMessage">
+		<p>
+			<?php	foreach ($this->mensajes as $mensaje):
+						echo $mensaje;
+					endforeach;
+			?>
+		</p>
+	</div>
+<?php endif; ?>
+<?php if ($this->mensajesError): ?>
+	<div class="FlashMessageError">
+		<p>
+			<?php	foreach ($this->mensajesError as $mensajeError):
+						echo $mensajeError;
+					endforeach;
+			?>
+		</p>
+	</div>
+<?php endif; ?>
+
+<?php $informacion = $this->informacion ?>
+
+<div class="titulo"><h2>Modificar | <?= $informacion['titulo_informacion'] ?></h2></div>
+<hr />	
+<form action="/../editor/info/id/<?= $informacion['id_informacion'] ?>" method="post" name="formularioEditarInfo" id="formularioEditarInfo">
+	<table align="center" style="width:780px;">
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right"><h3>Titulo</h3></td>
+			<td>
+				<input class="campotexto" type="text" name="titulo_informacion" value="<?= $informacion['titulo_informacion'] ?>" size="500" />
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right"><h3>Ubicación</h3></td>
+			<td>
+				<select class="campotexto" name="ubicacion_informacion">
+					<option value="index" <?php if($informacion['ubicacion_informacion'] == 'index') echo 'selected="selected"' ?>>Portada</option>
+					<option value="cuestionario" <?php if($informacion['ubicacion_informacion'] == 'cuestionario') echo 'selected="selected"' ?>>Cuestionario</option>
+					<option value="informacion" <?php if($informacion['ubicacion_informacion'] == 'informacion') echo 'selected="selected"' ?>>Información</option>
+					<option value="consejos" <?php if($informacion['ubicacion_informacion'] == 'consejos') echo 'selected="selected"' ?>>Consejos</option>
+				</select>
+			</td>
+		</tr>
+		<tr valign="baseline">
+			<td nowrap="nowrap" align="right"><h3>Ficha</h3></td>
+			<td>
+				<input class="campotexto" type="text" name="ficha_informacion" value="<?= $informacion['ficha_informacion'] ?>" size="500" />
+			</td>
+			<td><input class="botonFormulario" name="botonActualizarInfo" type="submit" value="Actualizar" /></td>
+		</tr>
+	</table>
+	<textarea class="areatexto" id="contenido_informacion" name="contenido_informacion" cols="500" rows="10"/><?= $informacion['contenido_informacion'] ?></textarea>
+				<?= $this->setupEditor('contenido_informacion'); ?>
+
+	<input type="hidden" name="id_informacion" value="<?= $informacion['id_informacion'] ?>" />
+</form>

@@ -1,0 +1,57 @@
+<?php echo $this->doctype() ?><html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+<?php
+	$this->headTitle()->prepend('Huella Ecologica Venezuela');
+    echo $this->headTitle();
+	$perfil = $this->perfil;
+	$this->headScript()->appendFile("/js/cuestionario.js");
+?>
+<link rel="shortcut icon" href="/../images/favicon.ico" >
+<meta name="author" content="Diego León Socorro">
+<meta http-equiv="content-language" content="es">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="&copy; 2012 Universidad Metropolitana">
+<meta name="description" content="Software para el calcular la Huella Ecológica en Venezuela.">
+<meta name="robots" content="all">
+
+<?php
+	echo $this->headMeta();
+?>
+<link href="/css/styles.css" rel="stylesheet" type="text/css" />
+<link href="/css/le-frog/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+<?php
+	echo $this->headLink();
+?>
+<?php
+	$this->jQuery()->enable();
+	$this->jQuery()->uiEnable();
+	echo $this->jQuery();
+	echo $this->headScript();
+?>
+</head>
+<body>
+<div id="envoltorio">
+
+		<div id="contenido">
+			<div class="tituloSeccion">
+				<h1>Cuestionario</h1>
+				<p>Bienvenid<?php if($perfil['sexo_usuario'] == 'F') echo "a"; else echo "o"; ?>, <a href="/../usuario/perfil"><?php if($perfil['nombre_usuario']!=null)echo $perfil['nombre_usuario']; else echo $perfil['email_usuario']; ?></a></p>
+				<br />
+				<a href="/../index/cerrar-sesion"><p>Cerrar sesión</p></a>
+			</div>
+
+			<?php echo $this->layout()->content; ?>
+
+
+		</div>
+	<div id="pie">
+		<div class="creditos">
+			<p class="centrar"><a href="/../usuario/perfil" style="color:#FFF; font-weight:bold; font-size:12px">Volver a mi perfil</a></p>
+			<br />
+			<p class="centrar">Trabajo de Grado realizado por Diego León para la Universidad Metropolitana</p>
+			<p class="centrar" ><strong>Todos los derechos reservados</strong></p>
+		</div>
+	</div>
+</div>
+</body>
+</html>

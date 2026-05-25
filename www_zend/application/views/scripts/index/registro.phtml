@@ -1,0 +1,94 @@
+<?php
+	$this->headTitle(' | Registro'); 
+	$this->headMeta()->appendName('keywords', 'huella ecologica venezuela, ecologia venezuela, ambiente venezuela, huella ecologica, ecologia, medio ambiente venezuela, impacto ambiental');
+
+
+	$this->headScript()->appendFile("/SpryAssets/SpryValidationTextField.js")
+					   ->appendFile("/SpryAssets/SpryValidationPassword.js")
+					   ->appendFile("/SpryAssets/SpryValidationConfirm.js")
+					   ->appendFile("/js/borrarForm.js");
+					   
+	$this->headLink()->appendStylesheet("/SpryAssets/SpryValidationTextField.css")
+					 ->appendStylesheet("/SpryAssets/SpryValidationPassword.css")
+					 ->appendStylesheet("/SpryAssets/SpryValidationConfirm.css");
+
+	$sidebar3 = $this->sidebar3;
+	$sidebar6 = $this->sidebar6;
+?>
+
+<div class="tituloSeccion">
+	<h1>Bienvenidos</h1>
+</div>
+<div class="sidebarIndex">
+	<div class="infoHE">
+		<h2><?= $sidebar6['titulo_informacion'] ?></h2>
+		<hr />
+		<p><?= $sidebar6['contenido_informacion'] ?></p>
+		<a href="http://mailchimp.com/" target="blank"><p class="verde2 derecha">suscripción boletines</p></a>
+	</div>
+	<div class="infoHE">
+		<h2><?= $sidebar3['titulo_informacion'] ?></h2>
+		<hr />
+		<p><?= $sidebar3['contenido_informacion'] ?></p>
+		<a href="/../index/informacion"><p class="verde2 derecha">más información</p></a>
+	</div>
+</div>
+<div class="registro">
+	<?php if ($this->mensaje): ?>
+		<div class="FlashMessageError">
+			<p>
+				<?= $this->mensaje ;?>
+			</p>
+		</div>
+	<?php endif; ?>
+	<h2>Registro</h2>
+	<hr />
+	<form action="/../index/registro" method="post" name="formularioRegistro" id="formularioRegistro">
+		<table align="center">
+		  <tr valign="baseline">
+			<td nowrap="nowrap" align="right">Correo electrónico</td>
+			<td><span id="spryEmail">
+			<input class="campotexto" type="text" name="email_usuario" id="email_usuario" onfocus="ClearEmail();" value="correo@ejemplo.com" size="32" />
+			<span class="textfieldRequiredMsg">*</span><span class="textfieldInvalidFormatMsg">Formato inválido.</span></span></td>
+		  </tr>
+		  <tr valign="baseline">
+			<td nowrap="nowrap" align="right">Contraseña</td>
+		  <td><span id="sprypassword1">
+			  <input class="campotexto" type="password" name="pass_usuario" id="pass_usuario" onfocus="ClearEmail();" size="32" />
+			<span class="passwordRequiredMsg">*</span></span></td>
+		  </tr>
+		  <tr valign="baseline">
+			<td nowrap="nowrap" align="right">Repetir contraseña</td>
+		  <td><span id="spryconfirm1">
+			  <input class="campotexto" type="password" name="pass2_usuario" id="pass2_usuario"  onfocus="ClearEmail();" size="32" />
+			<span class="confirmRequiredMsg">*</span><span class="confirmInvalidMsg">Las contraseñas no coinciden.</span></span></td>
+		  </tr>
+		  <tr valign="baseline">
+			<td nowrap="nowrap" align="right">&nbsp;</td>
+			<td><input class="botonFormulario" name="botonRegistro" type="submit" value="Registrarme"/></td>
+		  </tr>
+		</table>
+		<input type="hidden" name="redirect" value="<?= $this->redirect ?>" />
+	</form>
+
+	<a href="/index/login/" style="color:#060;">Iniciar sesión (usuarios registrados)</a>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+<!--
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("spryEmail", "email");
+
+var sprypassword1 = new Spry.Widget.ValidationPassword("sprypassword1");
+
+var spryconfirm1 = new Spry.Widget.ValidationConfirm("spryconfirm1", "pass_usuario");
+
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {minChars:2, validateOn:["blur"]});
+
+//-->
+
+</script>

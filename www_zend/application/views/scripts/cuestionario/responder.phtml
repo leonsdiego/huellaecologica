@@ -1,0 +1,50 @@
+<?php 	
+		$this->headScript()	->appendFile("/../SpryAssets/SpryValidationRadio.js");
+		$this->headLink()	->appendStylesheet("/SpryAssets/SpryValidationRadio.css");
+		$this->headTitle(' | Cuestionario');
+		$indicador = $this->indicador;
+		$perfil = $this->perfil;
+		$grupo = $this->grupo;
+		?>
+
+
+<a name="p"></a><!-- muestra al usuario la pregunta directamente en pantalla -->
+<br />
+<h2><?=  $grupo["nombre_grupo"] ?></h2>
+<div class="pregunta">
+	<div class="indicador"><h3><?= $indicador['descripcion_indicador'] ?></h3> <p style="text-align:center;">Pregunta <?= $indicador['orden_indicador'] ?>/62</p></div>
+	<div class="alternativa">
+		<form method="post" action="/../cuestionario/responder" >
+		<span id="spryradio1">
+			<table id="tableSelect">
+			
+				<?php foreach( $this->alternativas as $alternativa ): ?>
+					<?php echo '
+					<tr class="subrayado">
+						<td><input name="seleccion_usuario" style="display:none;" type="radio" value="'.$alternativa['id_alternativa'].'">
+						'.$alternativa['descripcion_alternativa'].'</td>
+					</tr>'?>
+				<?php endforeach; ?>
+					
+				<tr valign="baseline">
+					<td><a href="/../cuestionario/responder/i/<?= $indicador['tbl_indicador_id_indicador_anterior'] ?>"></a>
+					<input class="botonFormulario" name="botonSiguiente" type="submit" value="Siguiente"/></td><span class="radioRequiredMsg">Por favor, escoge alguna respuesta</span></span>
+				</tr>
+					<input type="hidden" name="id_indicador_siguiente" value="<?= $alternativa['tbl_indicador_id_indicador_siguiente'] ?>" />
+			</table>
+			
+			<div class="barraPie"></div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+var spryradio1 = new Spry.Widget.ValidationRadio("spryradio1");
+//-->
+</script>
+
+<?php if($perfil['rol_usuario'] == 'editor'){echo '
+	<div><p><a href="/../editor/indicador/id/' . $indicador['id_indicador'] . '">editar indicador</a></p></div>';} 
+?>
+

@@ -1,15 +1,19 @@
 <?php
 
+ini_set('display_errors', 0);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+
 // Define path to application directory
-// Constante utilizada para saber dónde se encuetran las configuraciones, controladores, etc.
+// Constante utilizada para saber dï¿½nde se encuetran las configuraciones, controladores, etc.
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/www_zend/application'));
 // Define application environment
 
-if($_SERVER['HTTP_HOST'] == 'www.huellaecologica.com.ve' || $_SERVER['HTTP_HOST'] == 'huellaecologica.com.ve' ){
+if ($_SERVER['HTTP_HOST'] == 'www.huellaecologica.com.ve' || $_SERVER['HTTP_HOST'] == 'huellaecologica.com.ve') {
     define('APPLICATION_ENV', 'production');
-}
-else{
+} elseif ($_SERVER['HTTP_HOST'] == 'dev.huellaecologica.com.ve') {
+    define('APPLICATION_ENV', 'staging');
+} else {
     define('APPLICATION_ENV', 'development');
 }
 

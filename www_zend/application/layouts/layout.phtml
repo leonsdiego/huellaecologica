@@ -1,0 +1,77 @@
+<?php echo $this->doctype() ?><html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+<?php
+	$this->headTitle()->prepend('Huella Ecologica Venezuela');
+    echo $this->headTitle();
+?>
+<link rel="shortcut icon" href="/../images/favicon.ico" >
+<meta name="author" content="Diego León Socorro">
+<meta http-equiv="content-language" content="es">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="&copy; 2012 Universidad Metropolitana">
+<meta name="description" content="Software para el calcular la Huella Ecológica en Venezuela.">
+<meta name="robots" content="all">
+
+<?php
+	//Meta
+	echo $this->headMeta();
+?>
+<link href="/css/styles.css" rel="stylesheet" type="text/css" />
+<link href="/css/le-frog/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+<?php
+	//CSS Stylesheets
+	echo $this->headLink();
+?>
+<?php
+	//Librerias de Jquery
+	$this->jQuery()->enable();
+	$this->jQuery()->uiEnable();
+	echo $this->jQuery();
+
+	//JavaScripts
+	echo $this->headScript();
+?>
+</head>
+<body>
+	<div id="envoltorio">
+  <div id="cabecera">
+  <div class="logo"></div>
+  <div class="navegacion">
+  <ul>
+    <li><a href="/">inicio</a></li>
+    <li><a href="/../usuario/perfil">cuestionario</a></li>
+    <li><a href="/../index/informacion">información</a></li>
+    <li><a href="/../index/consejos">consejos ecológicos</a></li>
+    <li><a href="/../index/contacto">contacto</a></li>
+  </ul>
+</div>
+</div>
+<div id="contenido">
+
+    <?php echo $this->layout()->content; ?>
+
+
+</div>
+<div id="pie">
+  <div class="navegacion">
+  <ul>
+    <li><a href="/">inicio</a></li>
+    <li><a href="/../usuario/perfil">cuestionario</a></li>
+    <li><a href="/../index/informacion">información</a></li>
+    <li><a href="/../index/consejos">consejos ecológicos</a></li>
+    <li><a href="/../index/contacto">contacto</a></li>
+  </ul>
+</div>
+  <div class="creditos">
+    <p class="centrar">Trabajo de Grado realizado por Diego León para la Universidad Metropolitana</p>
+    <p class="centrar" ><strong>Todos los derechos reservados</strong></p>
+	<?php
+	$perfil = $this->perfil;
+	if($perfil['rol_usuario'] == ('editor' || 'visitante')){echo '
+	<p style="text-align:right; font-size:16px; color:#FFF; font-weight:bold;"><a href="/../editor">Zona de editores</a></p>';}
+	?>
+  </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<?php 
+	$perfil = $this->perfil;
+	$fecha = $this->fecha;
+
+	$this->headTitle(' | Perfil');
+	$this->headScript()->appendFile("/js/js-datepicker/datepicker.js");
+	$this->headLink()->appendStylesheet("/css/css-datepicker/datepicker.css");
+?>
+
+<div class="tituloSeccion">
+	<h1>Consejos ecológicos</h1>
+<p>Bienvenid<?php if($perfil['sexo_usuario'] == 'F') echo "a"; else echo "o"; ?>, <a href="/../usuario/perfil"><?php if($perfil['nombre_usuario']!=null)echo $perfil['nombre_usuario']; else echo $perfil['email_usuario']; ?></a></p>
+<br />
+<a href="/../index/cerrar-sesion"><p>Cerrar sesión</p></a></div>
+<h1>Según el cuestionario inciado el: <?= $fecha ?></h1>
+<br />
+<p><a href="/../usuario/resultados/cuestionario/<?= $this->idCuestionario ?>">Ver los resultados</a></p><br />
+<p><a href="/../usuario/perfil" style="font-size:14px;">Volver a mi perfil</a></p>
+<a name="indice"></a>
+<div class="indiceConsejos">
+	<h5>Índice de consejos</h5>
+	<ul>
+	<?php foreach( $this->grupos as $grupo )
+		{ echo'
+		<li><a href="#'.$grupo['ficha_grupo'].'"><strong>'.$grupo['nombre_grupo'].'</a></li>';
+		}
+	?>
+	</ul>
+</div>
+
+<div class="articulo">
+
+  <!-- Inicio grupo de consejos -->
+  <?php foreach( $this->grupos as $grupo )
+		{ echo '<a name="'.$grupo['ficha_grupo'].'"></a><div class="grupoConsejo"><h2>'.$grupo['nombre_grupo'].'</h2><a href="#indice">&uarr; subir al índice &uarr;</a></div>';
+			 foreach ( $this->consejos as $consejo )
+			{
+				if($consejo['id_grupo'] == $grupo['id_grupo'])
+				{
+				echo '<div class="consejo">
+				<div class="tituloConsejo"><h2>'.$consejo['nombre_consejo'].'</h2><a href="#indice">&uarr; subir &uarr;</a></div>
+				<div class="descripcionConsejo"><p>'.$consejo['descripcion_consejo'].'</p></div>
+				</div>';
+				}
+			}
+		}
+	?>
+
+ </div>

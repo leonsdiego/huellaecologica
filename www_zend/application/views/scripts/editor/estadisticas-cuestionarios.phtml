@@ -1,0 +1,52 @@
+<?php
+	$this->headScript()	->appendFile("https://www.google.com/jsapi");
+	require("scripts/gChart.php");
+?>
+<script type="text/javascript">
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+	  
+	function drawLines() {
+  // Create and populate the data table.
+  var data = google.visualization.arrayToDataTable([
+    ['Meses', 'Registros'],
+	<?php
+    foreach( $this->cuestionariosByMes as $cuestionarios )
+			{
+				echo "['".$cuestionarios['mes']."', ".$cuestionarios['cant']."],";
+			}?>
+  ]);
+  
+ 
+  // Create and draw the visualization.
+  new google.visualization.LineChart(document.getElementById('chart_lines')).
+      draw(data, {
+                  width: 700, height: 400,
+                  }
+          );
+}
+	
+	function drawVisualization() 
+	{
+		drawLines();
+    };
+
+	
+	google.setOnLoadCallback(drawVisualization);
+</script>
+
+
+<div class="titulo"><h2>Estadísticas de los cuestionarios</h2></div>
+<hr />
+ 
+ <div class="estadistica">
+	<h2>Cuestionarios comenzados por mes</h2>
+	<div id='chart_lines'></div>
+	<?php
+		foreach ( $this->cuestionarios as $cuestionario)
+	{
+		echo '<p><strong>Total de cuestionarios ' . $cuestionario['estatus'] . 's: <span style="color:red;">' .  $cuestionario['cant'] . '</span></strong></p><br />';
+	}
+	?>
+ </div>
+ 

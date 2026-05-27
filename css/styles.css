@@ -63,7 +63,7 @@ p {
 	width: 400px;
 	height: 147px;
 	clear:both;
-	/*background-image:url(../images/logo.png);*/
+	background-image:url(../images/logo.png);
 }
 #cabecera .navegacion {
 	font-size: 12px;

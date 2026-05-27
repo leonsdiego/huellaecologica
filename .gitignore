@@ -6,10 +6,8 @@ error_log
 .DS_Store
 **/.DS_Store
 
-# Third-party Zend Framework libraries (restore from source)
+# Third-party Zend Framework libraries (dev copy only)
 dev_zend/
-www_zend/library/Zend/
-www_zend/library/ZendX/
 
 # Database dumps (may contain sensitive data)
 *.sql

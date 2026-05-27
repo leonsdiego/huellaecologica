@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home4/huellaec/public_html/
+    - export DEPLOYPATH=/home4/huellaec/dev.huellaecologica.com.ve/
     - /bin/cp -rf . $DEPLOYPATH

@@ -31,7 +31,17 @@ class EditorController extends Controller_Abstract
         //Acciones
 		$rol = $this->getRequest()->getParam('tipo');
 		$db = Zend_Db_Table::getDefaultAdapter();
-		$this->view->usuarios = $db->fetchAll($db->select()->from('tbl_usuario')->where('rol_usuario = ?',$rol));
+		$this->view->usuarios = $db->fetchAll(
+			$db->select()
+				->from(array('u' => 'tbl_usuario'))
+				->joinLeft(
+					array('c' => 'tbl_cuestionario'),
+					'c.tbl_usuario_id_usuario = u.id_usuario',
+					array('cuestionarios' => 'COUNT(c.id_cuestionario)')
+				)
+				->where('u.rol_usuario = ?', $rol)
+				->group('u.id_usuario')
+		);
 		$this->view->titulo = 'Usuarios de tipo: "'.$rol.'"';
 	}
 	
@@ -58,7 +68,7 @@ class EditorController extends Controller_Abstract
 					'id_usuario'=>$this->getRequest()->getParam('id_usuario'),
 					'rol_usuario'=>$this->getRequest()->getParam('rol_usuario')
 				));
-				$flashMessenger->addMessage('¡Bien! el perfil se actualizó correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! el perfil se actualizï¿½ correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 			else
@@ -70,7 +80,7 @@ class EditorController extends Controller_Abstract
 						'id_usuario'=>$this->getRequest()->getParam('id_usuario'),
 						'rol_usuario'=>$this->getRequest()->getParam('rol_usuario')
 					));
-					$flashMessenger->addMessage('¡Bien! el perfil se actualizó correctamente');
+					$flashMessenger->addMessage('ï¿½Bien! el perfil se actualizï¿½ correctamente');
 					$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 				}
 				else
@@ -86,7 +96,7 @@ class EditorController extends Controller_Abstract
 	
 	/*
 	*
-	*	ESTADÍSTICAS
+	*	ESTADï¿½STICAS
 	*
 	*/
 	
@@ -174,13 +184,13 @@ class EditorController extends Controller_Abstract
 					'orden_grupo'=>$this->getRequest()->getParam('orden_grupo'),
 					'nombre_grupo'=>$this->getRequest()->getParam('nombre_grupo')				
 				));
-				$flashMessenger->addMessage('¡Bien! se añadió el grupo correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! se aï¿½adiï¿½ el grupo correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 				
 			}
 			else
 			{
-			$flashMessenger->addMessage('La ficha que estás intentando ingresar ya existe, por favor prueba con otra');
+			$flashMessenger->addMessage('La ficha que estï¿½s intentando ingresar ya existe, por favor prueba con otra');
 			$this->view->mensajesError = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 		}
@@ -192,13 +202,13 @@ class EditorController extends Controller_Abstract
 					'orden_grupo'=>$this->getRequest()->getParam('orden_grupo'),
 					'nombre_grupo'=>$this->getRequest()->getParam('nombre_grupo')				
 				));
-				$flashMessenger->addMessage('¡Bien! se actualizó el grupo correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! se actualizï¿½ el grupo correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 		}
 		
-		if(isset($id))//Verifica nuevamente que la variable ID pasó como parámetro
+		if(isset($id))//Verifica nuevamente que la variable ID pasï¿½ como parï¿½metro
 		{
-			$this->view->grupo = Model_Grupo::getInstance()->getGrupoById($id); //Llena el formulario de actualización del grupo
+			$this->view->grupo = Model_Grupo::getInstance()->getGrupoById($id); //Llena el formulario de actualizaciï¿½n del grupo
 		}
 		$this->view->grupos = Model_Grupo::getInstance()->getGrupos(); //Llena la lista de grupos
 	}
@@ -217,9 +227,9 @@ class EditorController extends Controller_Abstract
 		$flashMessenger->addMessage('');
 				
 		$id = $this->getRequest()->getParam('id');
-		if(isset($id)) //Verifica que se pasó el ID del indicador como parámetro
+		if(isset($id)) //Verifica que se pasï¿½ el ID del indicador como parï¿½metro
 		{
-			/* Se crea el arreglo para dar valor al botón del formulario*/
+			/* Se crea el arreglo para dar valor al botï¿½n del formulario*/
 			$this->view->boton = array(
 									'nombre'=>'botonActualizarIndicador',
 									'valor'=>'Actualizar'
@@ -254,12 +264,12 @@ class EditorController extends Controller_Abstract
 					'formula_indicador'=>$this->getRequest()->getParam('formula_indicador'),
 					'ayuda_indicador'=>$this->getRequest()->getParam('ayuda_indicador')
 				));
-				$flashMessenger->addMessage('¡Bien! se añadió el indicador correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! se aï¿½adiï¿½ el indicador correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 			else
 			{
-			$flashMessenger->addMessage('La ficha que estás intentando ingresar ya existe, por favor prueba con otra');
+			$flashMessenger->addMessage('La ficha que estï¿½s intentando ingresar ya existe, por favor prueba con otra');
 			$this->view->mensajesError = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 		}
@@ -299,15 +309,15 @@ class EditorController extends Controller_Abstract
 				));
 				//Asociar indicador a una encuesta
 				Model_EncuestaIndicador::getInstance()->updateEncuestaIndicador($this->getRequest()->getParam('id_encuesta'),$this->getRequest()->getParam('id_indicador'));
-				$flashMessenger->addMessage('¡Bien! se actualizó el indicador correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! se actualizï¿½ el indicador correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 		}
 		
-		if(isset($id))//Verifica nuevamente que la variable ID pasó como parámetro
+		if(isset($id))//Verifica nuevamente que la variable ID pasï¿½ como parï¿½metro
 		{
 			$this->view->encuestaIndicador = Model_EncuestaIndicador::getInstance()->getEncuestaByIndicador($id);
 			$this->view->encuestas = Model_Encuesta::getInstance()->getEncuestas();
-			$this->view->indicador = Model_Indicador::getInstance()->getIndicador($id); //Llena el formulario si se pasa el ID como parámetro
+			$this->view->indicador = Model_Indicador::getInstance()->getIndicador($id); //Llena el formulario si se pasa el ID como parï¿½metro
 			$this->view->alternativas = Model_Alternativa::getInstance()->getAlternativasByIndicador($id);
 		}
 		$this->view->factores = Model_FactorConversion::getInstance()->getFactoresDeConversion();
@@ -339,16 +349,16 @@ class EditorController extends Controller_Abstract
 				'id_factorConversion'=>$this->getRequest()->getParam('id_factor'),
 				'valor_factorConversion'=> doubleval($this->getRequest()->getParam('valor_factor'))
 			));
-			$flashMessenger->addMessage('¡Bien! se actualizó el factor de conversión');
+			$flashMessenger->addMessage('ï¿½Bien! se actualizï¿½ el factor de conversiï¿½n');
 			$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 		}
 		
-		if(isset($id))//Verifica nuevamente que la variable ID pasó como parámetro
+		if(isset($id))//Verifica nuevamente que la variable ID pasï¿½ como parï¿½metro
 		{
-			//Llena el formulario si se pasa el ID como parámetro
+			//Llena el formulario si se pasa el ID como parï¿½metro
 			$this->view->factorConversion = Model_FactorConversion::getInstance()->getFactorConversion($id); 
 		}
-		$this->view->factores = Model_FactorConversion::getInstance()->getFactoresDeConversion(); //LLenar lista de factores de conversión
+		$this->view->factores = Model_FactorConversion::getInstance()->getFactoresDeConversion(); //LLenar lista de factores de conversiï¿½n
 	}
 	
 	/*
@@ -367,7 +377,7 @@ class EditorController extends Controller_Abstract
 		$id = $this->getRequest()->getParam('id');
 		if(isset($id)) 
 		{
-			/* Se crea el arreglo para dar valor al botón del formulario*/
+			/* Se crea el arreglo para dar valor al botï¿½n del formulario*/
 			$this->view->boton = array(
 									'nombre'=>'botonActualizarConsejo',
 									'valor'=>'Actualizar'
@@ -393,12 +403,12 @@ class EditorController extends Controller_Abstract
 					'descripcion_consejo'=>$this->getRequest()->getParam('descripcion_consejo'),
 					'tbl_grupo_id_grupo'=>$this->getRequest()->getParam('grupo_consejo')
 				));
-				$flashMessenger->addMessage('¡Bien! se añadió el consejo correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! se aï¿½adiï¿½ el consejo correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 			else
 			{
-			$flashMessenger->addMessage('La ficha que estás intentando ingresar ya existe, por favor prueba con otra');
+			$flashMessenger->addMessage('La ficha que estï¿½s intentando ingresar ya existe, por favor prueba con otra');
 			$this->view->mensajesError = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 		}
@@ -412,13 +422,13 @@ class EditorController extends Controller_Abstract
 				'descripcion_consejo'=>$this->getRequest()->getParam('descripcion_consejo'),
 				'tbl_grupo_id_grupo'=>$this->getRequest()->getParam('grupo_consejo')
 			));
-			$flashMessenger->addMessage('¡Bien! se actualizó el consejo correctamente');
+			$flashMessenger->addMessage('ï¿½Bien! se actualizï¿½ el consejo correctamente');
 			$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 		}
 		
-		if(isset($id))//Verifica nuevamente que la variable ID pasó como parámetro
+		if(isset($id))//Verifica nuevamente que la variable ID pasï¿½ como parï¿½metro
 		{
-			//Llena el formulario si se pasa el ID como parámetro
+			//Llena el formulario si se pasa el ID como parï¿½metro
 			$this->view->consejo = Model_Consejo::getInstance()->getConsejo($id); 
 		}
 		$this->view->consejos = Model_Consejo::getInstance()->getConsejos();
@@ -443,7 +453,7 @@ class EditorController extends Controller_Abstract
 		$id = $this->getRequest()->getParam('id');
 		if(isset($id))
 		{
-			/* Se crea el arreglo para dar valor al botón del formulario*/
+			/* Se crea el arreglo para dar valor al botï¿½n del formulario*/
 			$this->view->boton = array(
 									'nombre'=>'botonActualizarAlternativa',
 									'valor'=>'Actualizar'
@@ -457,7 +467,7 @@ class EditorController extends Controller_Abstract
 									);
 		}
 		
-		//Recoge los datos del indicador pasado como parámetro
+		//Recoge los datos del indicador pasado como parï¿½metro
 		$indicador = $this->getRequest()->getParam('indicador');
 		
 		if($this->getRequest()->getPost('botonInsertarAlternativa'))
@@ -476,12 +486,12 @@ class EditorController extends Controller_Abstract
 					'ayuda_alternativa'=>$this->getRequest()->getParam('ayuda_alternativa'),
 					'orden_alternativa'=>$this->getRequest()->getParam('orden_alternativa')
 				));
-				$flashMessenger->addMessage('¡Bien! se añadió la alternativa correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! se aï¿½adiï¿½ la alternativa correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 			else
 			{
-			$flashMessenger->addMessage('La ficha que estás intentando ingresar ya existe, por favor prueba con otra');
+			$flashMessenger->addMessage('La ficha que estï¿½s intentando ingresar ya existe, por favor prueba con otra');
 			$this->view->mensajesError = $this->_helper->flashMessenger->getCurrentMessages();
 			}
 		}
@@ -500,15 +510,15 @@ class EditorController extends Controller_Abstract
 					'ayuda_alternativa'=>$this->getRequest()->getParam('ayuda_alternativa'),
 					'orden_alternativa'=>$this->getRequest()->getParam('orden_alternativa')
 				));
-				$flashMessenger->addMessage('¡Bien! se actualizó la alternativa correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! se actualizï¿½ la alternativa correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 		}
 		
-		if(isset($id))//Verifica nuevamente que la variable ID pasó como parámetro
+		if(isset($id))//Verifica nuevamente que la variable ID pasï¿½ como parï¿½metro
 		{
 			$this->view->alternativa = Model_Alternativa::getInstance()->getAlternativa($id); 
 		}
-		//Llena el formulario si se pasa el ID como parámetro
+		//Llena el formulario si se pasa el ID como parï¿½metro
 		if(isset($indicador))
 		{
 			/* Se le da un valor al campo del indicador en el formulario*/
@@ -547,12 +557,12 @@ class EditorController extends Controller_Abstract
 						'ubicacion_informacion'=>$this->getRequest()->getParam('ubicacion_informacion'),
 						'contenido_informacion'=>$this->getRequest()->getParam('contenido_informacion')
 					));
-					$flashMessenger->addMessage('¡Bien! la información se actualizó correctamente');
+					$flashMessenger->addMessage('ï¿½Bien! la informaciï¿½n se actualizï¿½ correctamente');
 					$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 				}
 				else
 				{
-				$flashMessenger->addMessage('La ficha que estás intentando ingresar ya existe, por favor prueba con otra. La información NO se agregó a la base de datos.');
+				$flashMessenger->addMessage('La ficha que estï¿½s intentando ingresar ya existe, por favor prueba con otra. La informaciï¿½n NO se agregï¿½ a la base de datos.');
 				$this->view->mensajesError = $this->_helper->flashMessenger->getCurrentMessages();
 				$this->view->contenidoSalvado = $this->getRequest()->getParam('contenido_informacion');
 				}
@@ -575,7 +585,7 @@ class EditorController extends Controller_Abstract
 					'titulo_informacion'=>$this->getRequest()->getParam('titulo_informacion'),
 					'contenido_informacion'=>$this->getRequest()->getParam('contenido_informacion')
 				));
-				$flashMessenger->addMessage('¡Bien! la información se actualizó correctamente');
+				$flashMessenger->addMessage('ï¿½Bien! la informaciï¿½n se actualizï¿½ correctamente');
 				$this->view->mensajes = $this->_helper->flashMessenger->getCurrentMessages();
 		}
 		$this->view->informacion = Model_Informacion::getInstance()->getInformacionById($id);

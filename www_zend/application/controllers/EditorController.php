@@ -28,19 +28,18 @@ class EditorController extends Controller_Abstract
 	
     public function listarAction()
     {
-		$rol      = $this->getRequest()->getParam('tipo');
-		$pagina   = max(1, (int) $this->getRequest()->getParam('pagina', 1));
+		$rol       = $this->getRequest()->getParam('tipo');
+		$pagina    = max(1, (int) $this->getRequest()->getParam('pagina', 1));
+		$search    = trim($this->getRequest()->getParam('search', ''));
+		$filtro    = $this->getRequest()->getParam('cuestionarios', '');
 		$porPagina = 20;
-		$offset   = ($pagina - 1) * $porPagina;
+		$offset    = ($pagina - 1) * $porPagina;
 
 		$db = Zend_Db_Table::getDefaultAdapter();
 
-		$total = (int) $db->fetchOne(
-			$db->select()->from('tbl_usuario', 'COUNT(id_usuario)')->where('rol_usuario = ?', $rol)
-		);
-
-		$this->view->usuarios = $db->fetchAll(
-			$db->select()
+		// Reusable select builder (used for both count and data)
+		$buildSelect = function() use ($db, $rol, $search, $filtro) {
+			$select = $db->select()
 				->from(array('u' => 'tbl_usuario'))
 				->joinLeft(
 					array('c' => 'tbl_cuestionario'),
@@ -48,8 +47,28 @@ class EditorController extends Controller_Abstract
 					array('cuestionarios' => 'COUNT(c.id_cuestionario)')
 				)
 				->where('u.rol_usuario = ?', $rol)
-				->group('u.id_usuario')
-				->limit($porPagina, $offset)
+				->group('u.id_usuario');
+
+			if ($search !== '') {
+				$select->where('u.email_usuario LIKE ?', '%' . $search . '%');
+			}
+
+			switch ($filtro) {
+				case 'ninguno': $select->having('COUNT(c.id_cuestionario) = 0'); break;
+				case 'uno':     $select->having('COUNT(c.id_cuestionario) = 1'); break;
+				case 'mas':     $select->having('COUNT(c.id_cuestionario) > 1'); break;
+			}
+
+			return $select;
+		};
+
+		// Count matching rows (fetch IDs only for efficiency)
+		$total = count($db->fetchAll(
+			$buildSelect()->reset(Zend_Db_Select::COLUMNS)->columns(array('u.id_usuario'))
+		));
+
+		$this->view->usuarios = $db->fetchAll(
+			$buildSelect()->limit($porPagina, $offset)
 		);
 
 		$this->view->titulo       = 'Usuarios de tipo: "'.$rol.'"';
@@ -57,6 +76,8 @@ class EditorController extends Controller_Abstract
 		$this->view->pagina       = $pagina;
 		$this->view->totalPaginas = (int) ceil($total / $porPagina);
 		$this->view->total        = $total;
+		$this->view->search       = $search;
+		$this->view->filtro       = $filtro;
 	}
 	
 	/*

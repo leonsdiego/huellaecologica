@@ -1,105 +1,86 @@
-<?php $perfil = $this->perfil; 
-$cuestionarios = $this->cantidadCuestionarios;?>
+<?php $perfil = $this->perfil;
+$cuestionarios = $this->cantidadCuestionarios; ?>
+
 <?php if ($this->mensajes): ?>
-	<div class="FlashMessage" name="FlashMessage">
-		<p>
-			<?php	foreach ($this->mensajes as $mensaje):
-						echo $mensaje;
-					endforeach;
-			?>
-		</p>
-	</div>
+  <div class="mb-4 px-4 py-2 bg-green-100 border border-green-400 rounded text-green-700 text-sm">
+    <?php foreach ($this->mensajes as $mensaje): ?>
+      <?php if ($mensaje): ?><p><?= $mensaje ?></p><?php endif; ?>
+    <?php endforeach; ?>
+  </div>
 <?php endif; ?>
+
 <?php if ($this->mensajesError): ?>
-	<div class="FlashMessageError">
-		<p>
-			<?php	foreach ($this->mensajesError as $mensajeError):
-						echo $mensajeError;
-					endforeach;
-			?>
-		</p>
-	</div>
+  <div class="mb-4 px-4 py-2 bg-red-100 border border-red-400 rounded text-red-700 text-sm">
+    <?php foreach ($this->mensajesError as $mensajeError): ?>
+      <?php if ($mensajeError): ?><p><?= $mensajeError ?></p><?php endif; ?>
+    <?php endforeach; ?>
+  </div>
 <?php endif; ?>
-<div class="titulo"><h2>Perfil | <?php echo $perfil['nombre_usuario'] ?></h2></div>
-<hr />
-<form id="perfilUsuario">
-	<table align="center">
-		<tr>
-			<td class="derecha" >Identificador</td>
-			<td><?php echo $perfil['id_usuario'] ?></td>
-		</tr>
-			<tr>
-			<td class="derecha" >Nombre</td>
-			<td><?php echo $perfil['nombre_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Correo electr&oacute;nico</td>
-			<td><?php echo $perfil['email_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >IP</td>
-			<td><?php echo $perfil['ip_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >G&eacute;nero</td>
-			<td><?php echo $perfil['sexo_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Nivel de instrucci&oacute;n</td>
-			<td><?php echo $perfil['tbl_instruccion_nombre_instruccion'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Profesi&oacute;n</td>
-			<td><?php echo $perfil['profesion_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Fecha de nacimiento</td>
-			<td><?php echo $perfil['fechaNac_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Fecha de registro</td>
-			<td><?php echo $perfil['fechaRegistro_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Estado</td>
-			<td><?php echo $perfil['tbl_estado_nombre_estado'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Rol</td>
-			<td><?php echo $perfil['rol_usuario'] ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Estatus</td>
-			<?php 	$e = null;
-					if( $perfil['estatus_usuario'] == 1)$e='Activo';else $e = 'Inactivo'; ?>
-			<td><?= $e ?></td>
-		</tr>
-		<tr>
-			<td class="derecha" >Cuestionarios</td>
-			<td><?= $cuestionarios['cant'] ?></td>
-		</tr>
-	</table>
-</form>
-<br />
-<br />
-<div class="titulo"><h2>Editar rol y estatus de <?= $perfil['nombre_usuario'] ?></h2></div>
-<hr />
-<form action="/../editor/perfil/id/<?= $perfil['id_usuario'] ?>" method="post" name="formularioEditarPerfil" id="formularioEditarPerfil">
-	<table align="center">
-		<tr valign="baseline">
-			<td nowrap="nowrap" align="right">Rol</td>
-			<td>
-				<select class="campotexto" name="rol_usuario">
-					<option value="encuestado" <?php if($perfil['rol_usuario'] == 'encuestado') echo "selected='selected'" ?> >Encuestado</option>
-					<option value="visitante" <?php if($perfil['rol_usuario'] == 'visitante') echo "selected='selected'" ?> >Visitante</option>
-					<option value="editor" <?php if($perfil['rol_usuario'] == 'editor') echo "selected='selected'" ?> >Editor</option>
-				</select>
-			</td>
-		</tr>
-		<tr valign="baseline">
-			<td nowrap="nowrap" align="right">&nbsp;</td>
-			<td><input class="botonFormulario" name="botonEditarUsuario" type="submit" value="Actualizar" /></td>
-		</tr>
-	</table>
-	<input type="hidden" name="id_usuario" value="<?= $perfil['id_usuario'] ?>" />
+
+<h2 class="text-lg font-bold text-gray-700 mb-3">Perfil | <?= $perfil['nombre_usuario'] ?></h2>
+<hr class="border-gray-300 mb-4" />
+
+<table class="w-full text-sm mb-6">
+  <?php
+  $rows = array(
+    array('Identificador',      $perfil['id_usuario']),
+    array('Nombre',             $perfil['nombre_usuario']),
+    array('Correo electr&oacute;nico', $perfil['email_usuario']),
+    array('IP',                 $perfil['ip_usuario']),
+    array('G&eacute;nero',      $perfil['sexo_usuario']),
+    array('Nivel de instrucci&oacute;n', $perfil['tbl_instruccion_nombre_instruccion']),
+    array('Profesi&oacute;n',   $perfil['profesion_usuario']),
+    array('Fecha de nacimiento',$perfil['fechaNac_usuario']),
+    array('Fecha de registro',  $perfil['fechaRegistro_usuario']),
+    array('Estado',             $perfil['tbl_estado_nombre_estado']),
+    array('Rol',                $perfil['rol_usuario']),
+  );
+  ?>
+  <?php foreach ($rows as $row): ?>
+  <tr class="border-b border-gray-100">
+    <td class="py-1.5 pr-4 text-right font-semibold text-gray-500 w-48"><?= $row[0] ?></td>
+    <td class="py-1.5 text-gray-700"><?= $row[1] ?></td>
+  </tr>
+  <?php endforeach; ?>
+  <tr class="border-b border-gray-100">
+    <td class="py-1.5 pr-4 text-right font-semibold text-gray-500">Estatus</td>
+    <td class="py-1.5">
+      <?php $activo = $perfil['estatus_usuario'] == 1; ?>
+      <span class="inline-block text-xs font-medium px-2 py-0.5 rounded-full
+        <?= $activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600' ?>">
+        <?= $activo ? 'Activo' : 'Inactivo' ?>
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td class="py-1.5 pr-4 text-right font-semibold text-gray-500">Cuestionarios</td>
+    <td class="py-1.5 text-gray-700"><?= $cuestionarios['cant'] ?></td>
+  </tr>
+</table>
+
+<h2 class="text-lg font-bold text-gray-700 mb-3">Editar rol y estatus de <?= $perfil['nombre_usuario'] ?></h2>
+<hr class="border-gray-300 mb-4" />
+
+<form action="/../editor/perfil/id/<?= $perfil['id_usuario'] ?>" method="post"
+      name="formularioEditarPerfil" id="formularioEditarPerfil">
+
+  <div class="flex items-center gap-3 mb-4">
+    <label class="text-sm font-semibold text-gray-600 w-24 text-right">Rol</label>
+    <select name="rol_usuario"
+            class="border border-gray-300 rounded px-3 py-1.5 text-sm bg-gray-50 focus:outline-none focus:border-green-500">
+      <option value="encuestado" <?php if($perfil['rol_usuario'] == 'encuestado') echo "selected='selected'" ?>>Encuestado</option>
+      <option value="visitante"  <?php if($perfil['rol_usuario'] == 'visitante')  echo "selected='selected'" ?>>Visitante</option>
+      <option value="editor"     <?php if($perfil['rol_usuario'] == 'editor')     echo "selected='selected'" ?>>Editor</option>
+    </select>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <div class="w-24"></div>
+    <button type="submit" name="botonEditarUsuario"
+            class="px-5 py-2 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold rounded-lg cursor-pointer transition-colors">
+      Actualizar
+    </button>
+  </div>
+
+  <input type="hidden" name="id_usuario" value="<?= $perfil['id_usuario'] ?>" />
 </form>

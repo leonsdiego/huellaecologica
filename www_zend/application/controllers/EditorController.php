@@ -28,9 +28,17 @@ class EditorController extends Controller_Abstract
 	
     public function listarAction()
     {
-        //Acciones
-		$rol = $this->getRequest()->getParam('tipo');
+		$rol      = $this->getRequest()->getParam('tipo');
+		$pagina   = max(1, (int) $this->getRequest()->getParam('pagina', 1));
+		$porPagina = 20;
+		$offset   = ($pagina - 1) * $porPagina;
+
 		$db = Zend_Db_Table::getDefaultAdapter();
+
+		$total = (int) $db->fetchOne(
+			$db->select()->from('tbl_usuario', 'COUNT(id_usuario)')->where('rol_usuario = ?', $rol)
+		);
+
 		$this->view->usuarios = $db->fetchAll(
 			$db->select()
 				->from(array('u' => 'tbl_usuario'))
@@ -41,8 +49,14 @@ class EditorController extends Controller_Abstract
 				)
 				->where('u.rol_usuario = ?', $rol)
 				->group('u.id_usuario')
+				->limit($porPagina, $offset)
 		);
-		$this->view->titulo = 'Usuarios de tipo: "'.$rol.'"';
+
+		$this->view->titulo       = 'Usuarios de tipo: "'.$rol.'"';
+		$this->view->rol          = $rol;
+		$this->view->pagina       = $pagina;
+		$this->view->totalPaginas = (int) ceil($total / $porPagina);
+		$this->view->total        = $total;
 	}
 	
 	/*

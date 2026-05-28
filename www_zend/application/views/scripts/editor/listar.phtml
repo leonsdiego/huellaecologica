@@ -1,5 +1,19 @@
-<h2 class="text-lg font-bold text-gray-700 mb-3"><?= $this->titulo ?></h2>
+<?php
+$pagina      = $this->pagina;
+$totalPaginas = $this->totalPaginas;
+$rol         = $this->rol;
+$total       = $this->total;
+
+function paginaUrl($rol, $p) {
+    return '/../editor/listar/tipo/' . $rol . '/pagina/' . $p;
+}
+?>
+<div class="flex items-center justify-between mb-3">
+  <h2 class="text-lg font-bold text-gray-700"><?= $this->titulo ?></h2>
+  <span class="text-xs text-gray-400"><?= $total ?> registros</span>
+</div>
 <hr class="border-gray-300 mb-4" />
+
 <table class="w-full text-sm">
   <thead>
     <tr class="border-b-2 border-gray-300">
@@ -29,3 +43,54 @@
     <?php endforeach; ?>
   </tbody>
 </table>
+
+<?php if ($totalPaginas > 1): ?>
+<div class="flex items-center justify-between mt-5 pt-4 border-t border-gray-200">
+
+  <!-- Prev -->
+  <?php if ($pagina > 1): ?>
+    <a href="<?= paginaUrl($rol, $pagina - 1) ?>"
+       class="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 text-gray-600">
+      &larr; Anterior
+    </a>
+  <?php else: ?>
+    <span class="px-3 py-1.5 text-sm border border-gray-200 rounded text-gray-300 cursor-not-allowed">&larr; Anterior</span>
+  <?php endif; ?>
+
+  <!-- Page numbers -->
+  <div class="flex gap-1">
+    <?php
+    $window = 2;
+    $start  = max(1, $pagina - $window);
+    $end    = min($totalPaginas, $pagina + $window);
+    if ($start > 1): ?>
+      <a href="<?= paginaUrl($rol, 1) ?>" class="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 text-gray-600">1</a>
+      <?php if ($start > 2): ?><span class="px-2 py-1.5 text-sm text-gray-400">&hellip;</span><?php endif; ?>
+    <?php endif; ?>
+
+    <?php for ($p = $start; $p <= $end; $p++): ?>
+      <?php if ($p === $pagina): ?>
+        <span class="px-3 py-1.5 text-sm bg-green-700 text-white rounded font-semibold"><?= $p ?></span>
+      <?php else: ?>
+        <a href="<?= paginaUrl($rol, $p) ?>" class="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 text-gray-600"><?= $p ?></a>
+      <?php endif; ?>
+    <?php endfor; ?>
+
+    <?php if ($end < $totalPaginas): ?>
+      <?php if ($end < $totalPaginas - 1): ?><span class="px-2 py-1.5 text-sm text-gray-400">&hellip;</span><?php endif; ?>
+      <a href="<?= paginaUrl($rol, $totalPaginas) ?>" class="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 text-gray-600"><?= $totalPaginas ?></a>
+    <?php endif; ?>
+  </div>
+
+  <!-- Next -->
+  <?php if ($pagina < $totalPaginas): ?>
+    <a href="<?= paginaUrl($rol, $pagina + 1) ?>"
+       class="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 text-gray-600">
+      Siguiente &rarr;
+    </a>
+  <?php else: ?>
+    <span class="px-3 py-1.5 text-sm border border-gray-200 rounded text-gray-300 cursor-not-allowed">Siguiente &rarr;</span>
+  <?php endif; ?>
+
+</div>
+<?php endif; ?>

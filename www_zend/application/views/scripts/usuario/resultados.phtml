@@ -12,8 +12,17 @@
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
+
+      // Chart data/options and the chart instance are kept at outer scope so the
+      // resize handler below can redraw with the same data instead of only sizing
+      // the container: #chart_div's height changes at CSS breakpoints (see
+      // .chartResponsive in styles.css), but Google Charts only fits itself to the
+      // container at draw() time, so without a redraw the chart stays frozen at
+      // whatever size it had on first paint.
+      var footprintChartData, footprintChartOptions, footprintChart;
+
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
+        footprintChartData = google.visualization.arrayToDataTable([
           ['Grupo', 'Huella ecológica'],
 		  <?php
 		$resultadosGrupo = $this->resultadosGrupos;
@@ -21,15 +30,25 @@
 		 {
 			echo "['". $grupo['nombre_grupo'] ."', ". $resultadosGrupo[$grupo['nombre_grupo']] . "],";
 		 }
-		?>]);        
+		?>]);
 
-        var options = {
+        footprintChartOptions = {
           title: 'Tu Huella Ecológica por categorías',
           is3D: true
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
+        footprintChart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        footprintChart.draw(footprintChartData, footprintChartOptions);
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function () {
+            if (footprintChart) {
+              footprintChart.draw(footprintChartData, footprintChartOptions);
+            }
+          }, 150);
+        });
       }
     </script>
 
@@ -42,4 +61,4 @@
 	<br />
 	<p><a href="/../usuario/consejos/cuestionario/<?php echo $idCuestionario . '" style="color:blue;';?>">¿Cómo disminuir mi Huella Ecológica? | Consejos ecológicos</a></p>
 	<p><a href="/../usuario/perfil" style="font-size:14px;">Volver a mi perfil</a></p>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="chart_div" class="chartResponsive"></div>

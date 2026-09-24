@@ -1,6 +1,23 @@
 @charset "utf-8";
 /* CSS Document */
 
+/* Responsive retrofit: embedded videos (e.g. the YouTube iframes in the editor-managed
+   "Sobre el sitio" content) have hardcoded width="580" height="435" attributes that
+   otherwise force horizontal scrolling on narrow screens. max-width applies to any
+   iframe (harmless cap, e.g. also covers the Facebook "like" widgets in this content),
+   but the aspect-ratio override is scoped to youtube.com embeds specifically — applying
+   it to iframes generally would distort the Facebook widgets, which size themselves via
+   inline style/UA defaults rather than a 580:435 ratio. Unlike <img>, <iframe> has no
+   natural-aspect-ratio fallback for height:auto, so the ratio is set explicitly to match
+   the YouTube embeds' own attributes rather than left to collapse to the browser default. */
+#contenido iframe {
+	max-width:100%;
+}
+#contenido iframe[src*="youtube.com"] {
+	aspect-ratio: 580 / 435;
+	height:auto;
+}
+
 h1, h2, h3, h4, h5, h6, p, a, a:hover {
 	margin:0;
 	padding:0;
@@ -53,7 +70,8 @@ p {
 }
 #cabecera {
 	clear: both;
-	height: 180px;
+	height: auto;
+	min-height: 180px;
 	margin-right: auto;
 	margin-left: auto;
 	border-bottom:#666 solid 1px;
@@ -64,6 +82,10 @@ p {
 	height: 147px;
 	clear:both;
 	background-image:url(../images/logo.png);
+	max-width:100%;
+	background-size:contain;
+	background-repeat:no-repeat;
+	background-position:center;
 }
 #cabecera .navegacion {
 	font-size: 12px;
@@ -598,4 +620,120 @@ p {
 	background-image: -webkit-linear-gradient(bottom, rgb(5,77,34) 90%, rgb(12,115,5) 10%);
 	background-image: -ms-linear-gradient(bottom, rgb(5,77,34) 90%, rgb(12,115,5) 10%);
 	background-image: -webkit-gradient(  linear,  left bottom,  left top,  color-stop(0.9, rgb(5,77,34)),  color-stop(0.1, rgb(12,115,5)));
+}
+/* ==========================================================================
+   Responsive retrofit — additive media queries.
+   Desktop-first: base rules above remain unchanged for viewports > 992px.
+   ========================================================================== */
+
+#contenido .chartResponsive {
+	width:100%;
+	max-width:900px;
+	height:500px;
+	margin:0 auto;
+}
+
+@media (max-width: 992px) {
+	/* Scoped to this breakpoint (not applied globally) so desktop rendering above 992px
+	   is provably unchanged — several fixed-width boxes (.registro, .pregunta, etc.)
+	   combine width+padding under the default content-box model, and switching that
+	   globally would shrink them on desktop too. Border-box is only needed here, where
+	   the rules below combine fluid/percentage widths with existing padding. */
+	*, *::before, *::after {
+		box-sizing: border-box;
+	}
+	#envoltorio {
+		width:100%;
+		max-width:960px;
+		padding:10px 15px;
+	}
+	#cabecera .navegacion ul li,
+	#pie .navegacion ul li {
+		display:block;
+		margin:8px 0;
+		text-align:center;
+	}
+	#contenido .sidebarIndex,
+	#contenido .registro,
+	#contenido .inicioSesion,
+	#contenido .perfilUsuario,
+	#contenido .iniciarCuestionario,
+	#contenido .informacionTesis,
+	#contenido .izquierda,
+	#contenido .hastaLuego {
+		float:none;
+		width:100%;
+	}
+	#contenido .pregunta {
+		width:100%;
+	}
+	#contenido .alternativa table {
+		float:none;
+		width:100%;
+	}
+	#contenido .articulo .grupoConsejo,
+	#contenido .indiceConsejos {
+		max-width:100%;
+	}
+	#contenido .chartResponsive {
+		height:350px;
+	}
+
+	/* Layout tables used purely for form positioning (login/registro/contacto/perfil/comenzar).
+	   Spry validation widgets bind to the <span id="..."> wrapper, not this table structure,
+	   so restacking here does not affect validation. */
+	#contenido form table[align="center"] {
+		display:block;
+		width:100%;
+	}
+	#contenido form table[align="center"] tr {
+		display:block;
+		margin-bottom:10px;
+	}
+	#contenido form table[align="center"] td {
+		display:block;
+		width:100%;
+		text-align:left !important;
+		padding:4px 0;
+	}
+
+	/* Questionnaire answer table (responder.phtml). js/cuestionario.js binds by
+	   tag/class (tbody > tr, .subrayado), not layout geometry, so this is safe. */
+	#contenido .alternativa table#tableSelect {
+		display:block;
+		width:100%;
+	}
+	#contenido .alternativa table#tableSelect tr {
+		display:block;
+		width:100%;
+		margin-bottom:2px;
+	}
+	#contenido .alternativa table#tableSelect td {
+		display:block;
+		width:auto;
+		height:auto;
+		min-height:44px;
+		padding:12px 15px;
+	}
+}
+
+@media (max-width: 480px) {
+	#contenido .alternativa td {
+		width:auto;
+		padding:12px 15px;
+	}
+	.campotexto,
+	.areatexto {
+		width:100%;
+		max-width:280px;
+	}
+	#contenido .tituloSeccion p,
+	#contenido .nombreUsuario {
+		float:none;
+		display:block;
+		text-align:left;
+	}
+	#contenido .chartResponsive {
+		height:280px;
+	}
 }
